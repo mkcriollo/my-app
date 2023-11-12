@@ -15,6 +15,7 @@ const HomePage = (): JSX.Element => {
 
   const props = {
     albumPhotos,
+    setAlbumPhotos,
     addToAlbum,
     dragImage,
     setDragImage,

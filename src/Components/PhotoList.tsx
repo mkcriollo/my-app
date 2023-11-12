@@ -2,9 +2,6 @@ import React from "react";
 import { IPhoto, IPhotoListProps } from "../Types";
 import { Image, Grid } from "@chakra-ui/react";
 
-/* COMMENTS */
-// AddtoAlbum only should work from gallery not album component
-
 const PhotoList = ({
   photoList,
   colTemplate,
@@ -12,11 +9,28 @@ const PhotoList = ({
   addToAlbum,
   dragState,
   canDrag,
+  select,
 }: IPhotoListProps): JSX.Element => {
   const { setDragImage } = dragState;
 
   const drag = (photo: IPhoto): void => {
     setDragImage(photo);
+  };
+
+  const handleSelectMode = (photo: IPhoto): void => {
+    if (select?.selectMode) {
+      // Add to Select Imgs
+      if (!select?.selectImgs.includes(photo)) {
+        const newSelectedImgs = [...select?.selectImgs, photo];
+        select.setSelectImgs(newSelectedImgs);
+      } else {
+        // Remove from Select Imgs
+        const newSelectImgs = select?.selectImgs.filter(
+          (curr: IPhoto) => curr.id !== photo.id
+        );
+        select.setSelectImgs(newSelectImgs);
+      }
+    }
   };
 
   return (
@@ -25,6 +39,7 @@ const PhotoList = ({
         const { url, id, title } = photo;
         return (
           <Image
+            cursor={select?.selectMode ? "pointer" : "default"}
             id="single-image"
             draggable={canDrag}
             onDragStart={() => drag(photo)}
@@ -33,7 +48,14 @@ const PhotoList = ({
             key={id}
             alt={title}
             objectFit="cover"
-            onClick={() => addToAlbum(photo)}
+            opacity={
+              select?.selectImgs.some((curr: IPhoto) => {
+                return curr.id === photo.id;
+              })
+                ? 0.5
+                : 1
+            }
+            onClick={() => handleSelectMode(photo)}
           />
         );
       })}

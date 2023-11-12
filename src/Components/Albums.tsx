@@ -1,10 +1,41 @@
-import React from "react";
-import { Flex, Box, Container, OrderedList, ListItem } from "@chakra-ui/react";
+import React, { useState } from "react";
+import {
+  Flex,
+  Box,
+  Container,
+  OrderedList,
+  ListItem,
+  Button,
+  Text,
+} from "@chakra-ui/react";
 import { IPhoto, IPhotoListProps } from "../Types";
+import { BsTrash3 } from "react-icons/bs";
 import PhotoList from "./PhotoList";
 
 const Albums = (props: any): JSX.Element => {
-  const { albumPhotos, setDragImage, dragImage, addToAlbum } = props;
+  const { albumPhotos, setAlbumPhotos, setDragImage, dragImage, addToAlbum } =
+    props;
+  const [selectImgs, setSelectImgs] = useState<IPhoto[]>([]);
+  const [selectMode, setSelectMode] = useState<boolean>(false);
+
+  // Handle Image Drop
+  const drop = (ev: any): void => {
+    ev.preventDefault();
+    addToAlbum(dragImage);
+  };
+
+  const allowDrop = (ev: any): void => {
+    ev.preventDefault();
+  };
+
+  // Delete Photos from Album
+  const handleDeleteSelectPhotos = (): void => {
+    const albumWithoutSelectPhotos = albumPhotos.filter(
+      (ele: IPhoto) => !selectImgs.includes(ele)
+    );
+    setAlbumPhotos(albumWithoutSelectPhotos);
+    setSelectImgs([]);
+  };
 
   const photoListProps: IPhotoListProps = {
     photoList: albumPhotos,
@@ -15,15 +46,11 @@ const Albums = (props: any): JSX.Element => {
       setDragImage,
     },
     canDrag: false,
-  };
-
-  const drop = (ev: any): void => {
-    ev.preventDefault();
-    addToAlbum(dragImage);
-  };
-
-  const allowDrop = (ev: any): void => {
-    ev.preventDefault();
+    select: {
+      selectMode,
+      setSelectImgs,
+      selectImgs,
+    },
   };
 
   return (
@@ -38,7 +65,37 @@ const Albums = (props: any): JSX.Element => {
       onDrop={(ev) => drop(ev)}
       onDragOver={(ev) => allowDrop(ev)}
     >
-      <h3>Album Generator</h3>
+      <Flex justifyContent="space-between" alignItems="center">
+        <h3>Album Generator</h3>
+        {albumPhotos.length > 0 && (
+          <Button cursor="pointer" onClick={() => setSelectMode(!selectMode)}>
+            {selectMode ? "Cancel" : "Select"}
+          </Button>
+        )}
+      </Flex>
+      {selectMode && (
+        <Flex
+          alignItems="center"
+          justifyContent="space-between"
+          border="1px solid black"
+          p="10px"
+          mt="10px"
+          mb="10px"
+          boxSizing="border-box"
+          borderRadius="7px"
+          background="#a3e7e7"
+        >
+          <Text>
+            {selectImgs.length === 0
+              ? "Select Images"
+              : `${selectImgs.length} Photos Selected`}
+          </Text>
+          <BsTrash3
+            onClick={() => handleDeleteSelectPhotos()}
+            cursor="pointer"
+          />
+        </Flex>
+      )}
       <Flex>
         <Box w="50%">
           <PhotoList {...photoListProps}></PhotoList>
