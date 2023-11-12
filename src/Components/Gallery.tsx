@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import fetchPhotos from "../Actions/fetchPhotos";
 import { IPhoto, IPhotoListProps } from "../Types";
-import { Container } from "@chakra-ui/react";
+import { Container, Skeleton, Stack } from "@chakra-ui/react";
 import PhotoList from "./PhotoList";
 
 const Gallery = (props: any): JSX.Element => {
@@ -11,11 +11,7 @@ const Gallery = (props: any): JSX.Element => {
 
   // if results is not loaded show a loader
   if (results.isLoading) {
-    return (
-      <div>
-        <h2>Loading...</h2>
-      </div>
-    );
+    return <Skeleton h="100vh" startColor="lightgray" borderRadius="10px" />;
   }
 
   const photos: IPhoto[] = results.data.photos;

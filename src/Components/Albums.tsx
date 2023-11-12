@@ -28,6 +28,11 @@ const Albums = (props: any): JSX.Element => {
     ev.preventDefault();
   };
 
+  const handleSelectMode = (): void => {
+    setSelectMode(!selectMode);
+    setSelectImgs([]);
+  };
+
   // Delete Photos from Album
   const handleDeleteSelectPhotos = (): void => {
     const albumWithoutSelectPhotos = albumPhotos.filter(
@@ -68,7 +73,19 @@ const Albums = (props: any): JSX.Element => {
       <Flex justifyContent="space-between" alignItems="center">
         <h3>Album Generator</h3>
         {albumPhotos.length > 0 && (
-          <Button cursor="pointer" onClick={() => setSelectMode(!selectMode)}>
+          <Button
+            cursor="pointer"
+            onClick={() => handleSelectMode()}
+            borderRadius="6px"
+            background="#a3e7e7"
+            border="none"
+            _hover={{
+              background: "#339f9f",
+              border: "none",
+              color: "white",
+            }}
+            p="5px 10px"
+          >
             {selectMode ? "Cancel" : "Select"}
           </Button>
         )}
