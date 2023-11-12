@@ -1,6 +1,8 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import fetchPhotos from "../Actions/fetchPhotos";
+import { IPhoto } from "../Types";
+import { Grid, GridItem, Image } from "@chakra-ui/react";
 
 export default function Gallery() {
   const results = useQuery(["images"], fetchPhotos);
@@ -14,7 +16,22 @@ export default function Gallery() {
     );
   }
 
-  const photos = results.data.photos;
+  const photos: IPhoto[] = results.data.photos;
 
-  return <div>Gallery</div>;
+  return (
+    <Grid templateColumns="repeat(4,1fr)" gap={7}>
+      {photos.map((photo: IPhoto) => {
+        const { url, title } = photo;
+        return (
+          <Image
+            src={url}
+            alt={title}
+            width="200px"
+            height="200px"
+            objectFit="cover"
+          />
+        );
+      })}
+    </Grid>
+  );
 }

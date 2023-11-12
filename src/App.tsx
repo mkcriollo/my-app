@@ -3,6 +3,7 @@ import "./App.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Gallery from "./Components/Gallery";
 import Albums from "./Components/Albums";
+import { SimpleGrid, Grid, GridItem } from "@chakra-ui/react";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -16,16 +17,16 @@ const queryClient = new QueryClient({
 const App = (): JSX.Element => {
   return (
     <QueryClientProvider client={queryClient}>
-      <div>
-        <header>
+      <Grid templateRows="200px 2fr">
+        <header className="header">
           <h2>Brainscape App Coding Exercise</h2>
           <p>Photo Album Generator by Mike C.</p>
         </header>
-        <section>
+        <Grid templateColumns="3fr 1fr">
           <Gallery />
           <Albums />
-        </section>
-      </div>
+        </Grid>
+      </Grid>
     </QueryClientProvider>
   );
 };
