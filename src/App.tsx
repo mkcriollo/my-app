@@ -1,11 +1,9 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Gallery from "./Components/Gallery";
 import Albums from "./Components/Albums";
 
-// Cache (infinity)
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -15,7 +13,7 @@ const queryClient = new QueryClient({
   },
 });
 
-function App() {
+const App = (): JSX.Element => {
   return (
     <QueryClientProvider client={queryClient}>
       <div>
@@ -30,6 +28,6 @@ function App() {
       </div>
     </QueryClientProvider>
   );
-}
+};
 
 export default App;
