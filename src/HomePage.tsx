@@ -6,6 +6,7 @@ import { IPhoto } from "./Types";
 
 const HomePage = (): JSX.Element => {
   const [albumPhotos, setAlbumPhotos] = useState<IPhoto[] | []>([]);
+  const [dragImage, setDragImage] = useState<IPhoto>();
 
   const addToAlbum = (photo: IPhoto) => {
     const newAlbum: IPhoto[] = [...albumPhotos, photo];
@@ -15,6 +16,8 @@ const HomePage = (): JSX.Element => {
   const props = {
     albumPhotos,
     addToAlbum,
+    dragImage,
+    setDragImage,
   };
 
   return (

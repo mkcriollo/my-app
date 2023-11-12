@@ -10,13 +10,24 @@ const PhotoList = ({
   colTemplate,
   gap,
   addToAlbum,
+  dragState,
+  canDrag,
 }: IPhotoListProps): JSX.Element => {
+  const { setDragImage } = dragState;
+
+  const drag = (photo: IPhoto): void => {
+    setDragImage(photo);
+  };
+
   return (
     <Grid templateColumns={colTemplate} gap={gap}>
       {photoList.map((photo: IPhoto) => {
         const { url, id, title } = photo;
         return (
           <Image
+            id="single-image"
+            draggable={canDrag}
+            onDragStart={() => drag(photo)}
             src={url}
             w="100%"
             key={id}

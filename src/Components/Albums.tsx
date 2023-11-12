@@ -4,12 +4,26 @@ import { IPhoto, IPhotoListProps } from "../Types";
 import PhotoList from "./PhotoList";
 
 const Albums = (props: any): JSX.Element => {
-  const { albumPhotos } = props;
+  const { albumPhotos, setDragImage, dragImage, addToAlbum } = props;
 
   const photoListProps: IPhotoListProps = {
     photoList: albumPhotos,
     colTemplate: "repeat(3,1fr)",
     gap: 6,
+    dragState: {
+      dragImage,
+      setDragImage,
+    },
+    canDrag: false,
+  };
+
+  const drop = (ev: any): void => {
+    ev.preventDefault();
+    addToAlbum(dragImage);
+  };
+
+  const allowDrop = (ev: any): void => {
+    ev.preventDefault();
   };
 
   return (
@@ -21,6 +35,8 @@ const Albums = (props: any): JSX.Element => {
       mr="10px"
       pl="20px"
       pr="20px"
+      onDrop={(ev) => drop(ev)}
+      onDragOver={(ev) => allowDrop(ev)}
     >
       <h3>Album Generator</h3>
       <Flex>

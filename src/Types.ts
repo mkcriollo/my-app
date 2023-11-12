@@ -1,5 +1,5 @@
 /* COMMENTS */
-// add to album Type ??
+// add to album Type, setDrag Image type ??
 
 export interface IPhoto {
   description: string;
@@ -13,4 +13,9 @@ export interface IPhotoListProps {
   colTemplate: string;
   gap: number;
   addToAlbum?: any;
+  dragState: {
+    dragImage: IPhoto;
+    setDragImage: any;
+  };
+  canDrag: boolean;
 }
