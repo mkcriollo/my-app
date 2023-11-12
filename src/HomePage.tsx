@@ -22,7 +22,16 @@ const HomePage = (): JSX.Element => {
   };
 
   return (
-    <Grid templateColumns="2fr 1fr" height="100vh" overflow="hidden" mt="10px">
+    <Grid
+      templateAreas={{
+        base: `"album" "gallery"`,
+        lg: `"gallery album"`,
+      }}
+      templateColumns="repeat(3, 1fr)"
+      height="100vh"
+      overflow="hidden"
+      mt="20px"
+    >
       <Gallery {...props} />
       <Albums {...props} />
     </Grid>

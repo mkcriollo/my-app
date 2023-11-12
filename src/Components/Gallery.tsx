@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import fetchPhotos from "../Actions/fetchPhotos";
 import { IPhoto, IPhotoListProps } from "../Types";
-import { Container, Skeleton } from "@chakra-ui/react";
+import { GridItem, Skeleton } from "@chakra-ui/react";
 import PhotoList from "./PhotoList";
 
 const Gallery = (props: any): JSX.Element => {
@@ -26,9 +26,14 @@ const Gallery = (props: any): JSX.Element => {
   };
 
   return (
-    <Container overflow="scroll" className="gallery">
+    <GridItem
+      colSpan={{ base: 3, lg: 2 }}
+      overflow="scroll"
+      area={"gallery"}
+      mr={{ base: "0px", lg: "20px" }}
+    >
       <PhotoList {...photoListProps} />
-    </Container>
+    </GridItem>
   );
 };
 

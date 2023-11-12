@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import {
   Flex,
   Box,
-  Container,
   OrderedList,
   ListItem,
   Button,
   Text,
+  Container,
+  GridItem,
 } from "@chakra-ui/react";
 import { IPhoto, IPhotoListProps } from "../Types";
 import { BsTrash3 } from "react-icons/bs";
@@ -47,7 +48,7 @@ const Albums = (props: any): JSX.Element => {
   const photoListProps: IPhotoListProps = {
     photoList: albumPhotos,
     colTemplate: "repeat(3,1fr)",
-    gap: 6,
+    gap: 2,
     dragState: {
       dragImage,
       setDragImage,
@@ -61,72 +62,79 @@ const Albums = (props: any): JSX.Element => {
   };
 
   return (
-    <Container
+    <GridItem
+      colSpan={{ base: 3, lg: 1 }}
       overflow="hidden"
-      background="#00cccb"
-      h="80vh"
-      ml="10px"
-      mr="10px"
-      pl="20px"
-      pr="20px"
-      onDrop={(ev) => drop(ev)}
-      onDragOver={(ev) => allowDrop(ev)}
+      area={"album"}
+      minW="100%"
     >
-      <Flex justifyContent="space-between" alignItems="center">
-        <h3>Album Generator</h3>
-        {albumPhotos.length > 0 && (
-          <Button
-            cursor="pointer"
-            onClick={() => handleSelectMode()}
-            borderRadius="6px"
-            background="#a3e7e7"
-            border="none"
-            _hover={{
-              background: "#339f9f",
-              border: "none",
-              color: "white",
-            }}
-            p="5px 10px"
-          >
-            {selectMode ? "Cancel" : "Select"}
-          </Button>
-        )}
-      </Flex>
-      {selectMode && (
-        <Flex
-          alignItems="center"
-          justifyContent="space-between"
-          border="1px solid black"
-          p="10px"
-          mt="10px"
-          mb="10px"
-          boxSizing="border-box"
-          borderRadius="7px"
-          background="#a3e7e7"
-        >
-          <Text>
-            {selectImgs.length === 0
-              ? "Select Images"
-              : `${selectImgs.length} Photos Selected`}
+      <Box
+        background="#00cccb"
+        borderRadius="6px"
+        width="100%"
+        h={{ base: "fit-content", lg: "80vh" }}
+        p={{ base: "40px", lg: "20px" }}
+        mb={{ base: "30px", lg: "0px" }}
+        onDrop={(ev) => drop(ev)}
+        onDragOver={(ev) => allowDrop(ev)}
+      >
+        <Flex justifyContent="space-between" alignItems="baseline" mb="40px">
+          <Text fontWeight="bold" fontSize="medium">
+            Album Generator
           </Text>
-          <BsTrash3
-            onClick={() => handleDeleteSelectPhotos()}
-            cursor="pointer"
-          />
+          {albumPhotos.length > 0 && (
+            <Button
+              cursor="pointer"
+              onClick={() => handleSelectMode()}
+              borderRadius="6px"
+              background="#a3e7e7"
+              border="none"
+              _hover={{
+                background: "#339f9f",
+                border: "none",
+                color: "white",
+              }}
+            >
+              {selectMode ? "Cancel" : "Select"}
+            </Button>
+          )}
         </Flex>
-      )}
-      <Flex>
-        <Box w="50%">
-          <PhotoList {...photoListProps}></PhotoList>
-        </Box>
-        <OrderedList w="50%">
-          {albumPhotos.map((albumPhoto: IPhoto) => {
-            const { title } = albumPhoto;
-            return <ListItem>{title}</ListItem>;
-          })}
-        </OrderedList>
-      </Flex>
-    </Container>
+        {selectMode && (
+          <Flex
+            alignItems="center"
+            justifyContent="space-between"
+            border="1px solid black"
+            p="20px"
+            mb="30px"
+            boxSizing="border-box"
+            borderRadius="7px"
+            background="#a3e7e7"
+          >
+            <Text>
+              {selectImgs.length === 0
+                ? "Select Images"
+                : `${selectImgs.length} Photos Selected`}
+            </Text>
+            <BsTrash3
+              onClick={() => handleDeleteSelectPhotos()}
+              cursor="pointer"
+              fontSize="18px"
+            />
+          </Flex>
+        )}
+        <Flex justifyContent="space-between">
+          <Box width="50%">
+            <PhotoList {...photoListProps}></PhotoList>
+          </Box>
+          <OrderedList width="50%" pl="20px">
+            {albumPhotos.map((albumPhoto: IPhoto) => {
+              const { title } = albumPhoto;
+              return <ListItem fontWeight="bold">{title}</ListItem>;
+            })}
+          </OrderedList>
+        </Flex>
+      </Box>
+    </GridItem>
   );
 };
 

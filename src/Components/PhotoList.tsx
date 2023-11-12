@@ -1,12 +1,11 @@
 import React from "react";
 import { IPhoto, IPhotoListProps } from "../Types";
-import { Image, Grid } from "@chakra-ui/react";
+import { Image, Grid, Box, GridItem } from "@chakra-ui/react";
 
 const PhotoList = ({
   photoList,
   colTemplate,
   gap,
-  addToAlbum,
   dragState,
   canDrag,
   select,
@@ -44,7 +43,6 @@ const PhotoList = ({
             draggable={canDrag}
             onDragStart={() => drag(photo)}
             src={url}
-            w="100%"
             key={id}
             alt={title}
             objectFit="cover"
