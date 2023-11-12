@@ -11,7 +11,11 @@ const Gallery = (props: any): JSX.Element => {
 
   // if results is not loaded show a loader
   if (results.isLoading) {
-    return <Skeleton h="100vh" startColor="lightgray" borderRadius="10px" />;
+    return (
+      <GridItem area={"gallery"} colSpan={{ base: 3, lg: 2 }}>
+        <Skeleton h="100vh" startColor="lightgray" borderRadius="10px" />
+      </GridItem>
+    );
   }
 
   const photos: IPhoto[] = results.data.photos;
