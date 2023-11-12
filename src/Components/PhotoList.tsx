@@ -1,6 +1,7 @@
 import React from "react";
-import { IPhoto, IPhotoListProps } from "../Types";
-import { Image, Grid, Box, GridItem } from "@chakra-ui/react";
+import { IPhoto, IPhotoListProps, ISingleImageProps } from "../Types";
+import { Image, Grid, GridItem } from "@chakra-ui/react";
+import SinglePhoto from "./SinglePhoto";
 
 const PhotoList = ({
   photoList,
@@ -9,8 +10,20 @@ const PhotoList = ({
   dragState,
   canDrag,
   select,
+  addToAlbum,
 }: IPhotoListProps): JSX.Element => {
   const { setDragImage } = dragState;
+
+  // Get COLS Span
+
+  const colArr = colTemplate.match(/\d/g);
+  let amountOfCols: any = null;
+
+  if (colArr !== null) {
+    amountOfCols = colArr[0];
+  }
+
+  // Finish
 
   const drag = (photo: IPhoto): void => {
     setDragImage(photo);
@@ -32,29 +45,24 @@ const PhotoList = ({
     }
   };
 
+  const singleImageProps: ISingleImageProps = {
+    canDrag,
+    amountOfCols,
+    select,
+    handleSelectMode,
+    drag,
+    addToAlbum,
+  };
+
   return (
     <Grid templateColumns={colTemplate} gap={gap}>
       {photoList.map((photo: IPhoto) => {
-        const { url, id, title } = photo;
         return (
-          <Image
-            cursor={select?.selectMode ? "pointer" : "default"}
-            id="single-image"
-            draggable={canDrag}
-            onDragStart={() => drag(photo)}
-            src={url}
-            key={id}
-            alt={title}
-            objectFit="cover"
-            opacity={
-              select?.selectImgs.some((curr: IPhoto) => {
-                return curr.id === photo.id;
-              })
-                ? 0.5
-                : 1
-            }
-            onClick={() => handleSelectMode(photo)}
-          />
+          <GridItem
+            colSpan={{ base: canDrag ? Number(amountOfCols) : 1, lg: 1 }}
+          >
+            <SinglePhoto {...singleImageProps} photo={photo} />
+          </GridItem>
         );
       })}
     </Grid>

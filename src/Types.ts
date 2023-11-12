@@ -1,5 +1,5 @@
 /* COMMENTS */
-// add to album Type, setDrag Image type, setSelectImgs Type ??
+// add to album Type, setDrag Image type, setSelectImgs Type, photo Type ??
 
 export interface IPhoto {
   description: string;
@@ -23,4 +23,19 @@ export interface IPhotoListProps {
     setSelectImgs: any;
     selectImgs: IPhoto[];
   };
+}
+
+// maybe extend to Photoprops
+export interface ISingleImageProps {
+  canDrag: boolean;
+  amountOfCols: number;
+  addToAlbum?: any;
+  select?: {
+    selectMode: boolean;
+    setSelectImgs: any;
+    selectImgs: IPhoto[];
+  };
+  handleSelectMode: (photo: IPhoto) => void;
+  drag: (photo: IPhoto) => void;
+  photo?: any;
 }
