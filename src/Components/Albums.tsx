@@ -21,7 +21,9 @@ const Albums = (props: any): JSX.Element => {
   // Handle Image Drop
   const drop = (ev: any): void => {
     ev.preventDefault();
-    addToAlbum(dragImage);
+    if (!albumPhotos.includes(dragImage)) {
+      addToAlbum(dragImage);
+    }
   };
 
   const allowDrop = (ev: any): void => {

@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import fetchPhotos from "../Actions/fetchPhotos";
 import { IPhoto, IPhotoListProps } from "../Types";
-import { Container, Skeleton, Stack } from "@chakra-ui/react";
+import { Container, Skeleton } from "@chakra-ui/react";
 import PhotoList from "./PhotoList";
 
 const Gallery = (props: any): JSX.Element => {
