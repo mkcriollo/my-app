@@ -4,8 +4,9 @@ import fetchPhotos from "../Actions/fetchPhotos";
 import { IPhoto } from "../Types";
 import { Grid, GridItem, Image } from "@chakra-ui/react";
 
-export default function Gallery() {
+const Gallery = (props: any): JSX.Element => {
   const results = useQuery(["images"], fetchPhotos);
+  const { addToAlbum } = props;
 
   // if results is not loaded show a loader
   if (results.isLoading) {
@@ -19,11 +20,18 @@ export default function Gallery() {
   const photos: IPhoto[] = results.data.photos;
 
   return (
-    <Grid templateColumns="repeat(4,1fr)" gap={7}>
+    <Grid
+      templateColumns="repeat(4,1fr)"
+      gap={7}
+      overflow="scroll"
+      className="gallery"
+    >
       {photos.map((photo: IPhoto) => {
-        const { url, title } = photo;
+        const { url, title, id } = photo;
         return (
           <Image
+            onClick={() => addToAlbum(photo)}
+            key={id}
             src={url}
             alt={title}
             width="200px"
@@ -34,4 +42,6 @@ export default function Gallery() {
       })}
     </Grid>
   );
-}
+};
+
+export default Gallery;
