@@ -1,8 +1,9 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import fetchPhotos from "../Actions/fetchPhotos";
-import { IPhoto } from "../Types";
-import { Grid, GridItem, Image } from "@chakra-ui/react";
+import { IPhoto, IPhotoListProps } from "../Types";
+import { Image, Container } from "@chakra-ui/react";
+import PhotoList from "./PhotoList";
 
 const Gallery = (props: any): JSX.Element => {
   const results = useQuery(["images"], fetchPhotos);
@@ -19,28 +20,17 @@ const Gallery = (props: any): JSX.Element => {
 
   const photos: IPhoto[] = results.data.photos;
 
+  const photoListProps: IPhotoListProps = {
+    photoList: photos,
+    colTemplate: "repeat(4,1fr)",
+    gap: 15,
+    addToAlbum,
+  };
+
   return (
-    <Grid
-      templateColumns="repeat(4,1fr)"
-      gap={7}
-      overflow="scroll"
-      className="gallery"
-    >
-      {photos.map((photo: IPhoto) => {
-        const { url, title, id } = photo;
-        return (
-          <Image
-            onClick={() => addToAlbum(photo)}
-            key={id}
-            src={url}
-            alt={title}
-            width="200px"
-            height="200px"
-            objectFit="cover"
-          />
-        );
-      })}
-    </Grid>
+    <Container overflow="scroll" className="gallery">
+      <PhotoList {...photoListProps} />
+    </Container>
   );
 };
 
