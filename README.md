@@ -50,7 +50,7 @@ Steps I thought of and excuted for solving the save image to ablum folder proble
 
 Run the following commands to setup, `node` and `npm` is required:
 
-1) git clone git@github.com:geshan/my-app.git
+1) git clone git@github.com:mkcriollo/my-app.git
 2) cd my-app
 3) npm install
 4) npm start 
