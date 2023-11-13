@@ -11,12 +11,14 @@ import {
 import { IPhoto, IPhotoListProps } from "../Types";
 import { BsTrash3 } from "react-icons/bs";
 import PhotoList from "./PhotoList";
+import { BiUpArrow, BiDownArrow } from "react-icons/bi";
 
 const Albums = (props: any): JSX.Element => {
   const { albumPhotos, setAlbumPhotos, setDragImage, dragImage, addToAlbum } =
     props;
   const [selectImgs, setSelectImgs] = useState<IPhoto[]>([]);
   const [selectMode, setSelectMode] = useState<boolean>(false);
+  const [closedAlbum, setClosedAlbum] = useState<boolean>(false);
 
   // Handle Image Drop
   const drop = (ev: any): void => {
@@ -72,7 +74,10 @@ const Albums = (props: any): JSX.Element => {
         background="#00cccb"
         borderRadius="6px"
         width="100%"
-        h={{ base: "450px", lg: "80vh" }}
+        h={{
+          base: !closedAlbum ? "450px" : "fit-content",
+          lg: !closedAlbum ? "80vh" : "fit-content",
+        }}
         p={{ base: "40px", lg: "20px" }}
         mb={{ base: "30px", lg: "0px" }}
         onDrop={(ev) => drop(ev)}
@@ -83,22 +88,36 @@ const Albums = (props: any): JSX.Element => {
           <Text fontWeight="bold" fontSize="medium">
             Album Generator
           </Text>
-          {albumPhotos.length > 0 && (
-            <Button
-              cursor="pointer"
-              onClick={() => handleSelectMode()}
-              borderRadius="6px"
-              background="#a3e7e7"
-              border="none"
-              _hover={{
-                background: "#339f9f",
-                border: "none",
-                color: "white",
-              }}
-            >
-              {selectMode ? "Cancel" : "Select"}
-            </Button>
-          )}
+          <Flex alignItems="center">
+            {albumPhotos.length > 0 && (
+              <Button
+                cursor="pointer"
+                onClick={() => handleSelectMode()}
+                borderRadius="6px"
+                background="#a3e7e7"
+                border="none"
+                _hover={{
+                  background: "#339f9f",
+                  border: "none",
+                  color: "white",
+                }}
+                mr="10px"
+              >
+                {selectMode ? "Cancel" : "Select"}
+              </Button>
+            )}
+            {!closedAlbum ? (
+              <BiDownArrow
+                cursor="pointer"
+                onClick={() => setClosedAlbum(true)}
+              />
+            ) : (
+              <BiUpArrow
+                cursor="pointer"
+                onClick={() => setClosedAlbum(false)}
+              />
+            )}
+          </Flex>
         </Flex>
         {selectMode && (
           <Flex
@@ -123,17 +142,29 @@ const Albums = (props: any): JSX.Element => {
             />
           </Flex>
         )}
-        <Flex justifyContent="space-between" overflowY="auto" height="300px">
-          <Box width="50%">
-            <PhotoList {...photoListProps}></PhotoList>
-          </Box>
-          <OrderedList width="50%" pl="20px">
-            {albumPhotos.map((albumPhoto: IPhoto) => {
-              const { title } = albumPhoto;
-              return <ListItem fontWeight="bold">{title}</ListItem>;
-            })}
-          </OrderedList>
-        </Flex>
+        {!closedAlbum ? (
+          <Flex
+            justifyContent="space-between"
+            overflowY="auto"
+            height={{ base: "300px", lg: "80%" }}
+          >
+            <Box width="50%">
+              <PhotoList {...photoListProps}></PhotoList>
+            </Box>
+            <OrderedList width="50%" pl="20px">
+              {albumPhotos.map((albumPhoto: IPhoto) => {
+                const { title, id } = albumPhoto;
+                return (
+                  <ListItem fontWeight="bold" key={id}>
+                    {title}
+                  </ListItem>
+                );
+              })}
+            </OrderedList>
+          </Flex>
+        ) : (
+          <></>
+        )}
       </Box>
     </GridItem>
   );
