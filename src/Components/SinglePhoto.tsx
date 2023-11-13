@@ -31,7 +31,8 @@ const SinglePhoto = (props: ISingleImageProps): JSX.Element => {
         maxW={{ lg: "200px" }}
       >
         <Image
-          // loading="lazy"
+          loading="lazy"
+          fallbackSrc="https://via.placeholder.com/200"
           maxH={{ base: "500px", md: "900px", lg: "200px" }}
           maxW={{ base: "500px", md: "900px", lg: "200px" }}
           borderRadius={{ base: canDrag ? "6px" : "0px", lg: "0px" }}
@@ -43,7 +44,11 @@ const SinglePhoto = (props: ISingleImageProps): JSX.Element => {
           key={id}
           alt={title}
           objectFit="cover"
-          width="100%"
+          width={{
+            base: canDrag ? "325px" : "100%",
+            md: canDrag ? "900px" : "100%",
+            lg: canDrag ? "200px" : "100%",
+          }}
           opacity={
             select?.selectImgs.some((curr: IPhoto) => {
               return curr.id === photo.id;
@@ -69,12 +74,13 @@ const SinglePhoto = (props: ISingleImageProps): JSX.Element => {
             <Button
               borderRadius="6px"
               p="15px"
-              background="#a3e7e7"
+              background="#339f9f"
+              color="white"
               onClick={() => handleButtonAdd()}
               _hover={{
-                background: "#339f9f",
+                background: "#a3e7e7",
                 border: "none",
-                color: "white",
+                color: "black",
               }}
             >
               Add to Album

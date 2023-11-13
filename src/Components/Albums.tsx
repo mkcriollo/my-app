@@ -7,6 +7,7 @@ import {
   Button,
   Text,
   GridItem,
+  VStack,
 } from "@chakra-ui/react";
 import { IPhoto, IPhotoListProps } from "../Types";
 import { BsTrash3 } from "react-icons/bs";
@@ -29,6 +30,9 @@ const Albums = (props: any): JSX.Element => {
       setClosedAlbum(false);
     }
   };
+
+  console.log(albumPhotos);
+  console.log(closedAlbum);
 
   const allowDrop = (ev: any): void => {
     ev.preventDefault();
@@ -81,7 +85,12 @@ const Albums = (props: any): JSX.Element => {
         borderRadius="6px"
         width="100%"
         h={{
-          base: closedAlbum ? "200px" : "450px",
+          base:
+            !albumPhotos.length && closedAlbum
+              ? "80vh"
+              : albumPhotos.length > 0 && !closedAlbum
+              ? "540px"
+              : "100px",
           lg: closedAlbum ? "fit-content" : "80vh",
         }}
         p={{ base: "40px", lg: "20px" }}
@@ -114,32 +123,58 @@ const Albums = (props: any): JSX.Element => {
                     {selectMode ? "Cancel" : "Select"}
                   </Button>
                 )}
-                {closedAlbum ? (
-                  <BiUpArrow
-                    cursor="pointer"
-                    onClick={() => setClosedAlbum(false)}
-                  />
-                ) : (
-                  <BiDownArrow
-                    cursor="pointer"
-                    onClick={() => setClosedAlbum(true)}
-                  />
-                )}
               </>
+            )}
+            {closedAlbum && albumPhotos.length > 0 && (
+              <Text mr="10px">{albumPhotos.length} Photos</Text>
+            )}
+            {closedAlbum ? (
+              <BiUpArrow
+                cursor="pointer"
+                onClick={() => setClosedAlbum(false)}
+              />
+            ) : (
+              <BiDownArrow
+                cursor="pointer"
+                onClick={() => setClosedAlbum(true)}
+              />
             )}
           </Flex>
         </Flex>
-        {albumPhotos.length === 0 ? (
-          <Text fontSize="2xl" color="white" fontWeight="bold">
-            Add Some Photos Here!
-          </Text>
-        ) : (
-          closedAlbum && (
-            <Text fontSize="2xl" color="white" fontWeight="bold">
-              Open To View Album!
-            </Text>
-          )
-        )}
+        {!albumPhotos.length && closedAlbum ? (
+          <Flex
+            flexDir="column"
+            alignItems="start"
+            h="70%"
+            justifyContent="space-around"
+          >
+            <Box>
+              <Text fontSize="2xl" color="white" fontWeight="bold">
+                Welcome to BrainScape Album !
+              </Text>
+              <Text fontSize="14px" color="white">
+                Streamline your photo organization with our user-friendly
+                website, allowing you to effortlessly create albums by clicking
+                or dragging and dropping images with ease.
+              </Text>
+            </Box>
+            <VStack spacing={6}>
+              <Text fontSize="2xl" color="white" fontWeight="bold">
+                Steps:
+              </Text>
+              <Text fontSize="lg" color="white" fontWeight="bold">
+                1) Scroll Through Images and Find Images You Enjoy.
+              </Text>
+              <Text fontSize="lg" color="white" fontWeight="bold">
+                2) Drag & Drop to Add to Your Album or Just Click On Add to
+                Album!
+              </Text>
+              <Text fontSize="lg" color="white" fontWeight="bold">
+                2) Click On Arrow to Start Browsering
+              </Text>
+            </VStack>
+          </Flex>
+        ) : null}
         {selectMode && !closedAlbum && (
           <Flex
             alignItems="center"
