@@ -42,6 +42,10 @@ const Albums = (props: any): JSX.Element => {
     const albumWithoutSelectPhotos = albumPhotos.filter(
       (ele: IPhoto) => !selectImgs.includes(ele)
     );
+
+    if (albumWithoutSelectPhotos.length === 0) {
+      setSelectMode(false);
+    }
     setAlbumPhotos(albumWithoutSelectPhotos);
     setSelectImgs([]);
   };
