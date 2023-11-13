@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Grid } from "@chakra-ui/react";
 import Gallery from "./Components/Gallery";
 import Albums from "./Components/Albums";
-import { IPhoto } from "./Types";
+import { IPhoto, ISectionProps } from "./Types";
 
 const HomePage = (): JSX.Element => {
   const [albumPhotos, setAlbumPhotos] = useState<IPhoto[] | []>([]);
@@ -13,7 +13,7 @@ const HomePage = (): JSX.Element => {
     setAlbumPhotos(newAlbum);
   };
 
-  const props = {
+  const props: ISectionProps = {
     albumPhotos,
     setAlbumPhotos,
     addToAlbum,

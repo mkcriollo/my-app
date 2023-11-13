@@ -45,9 +45,9 @@ const SinglePhoto = (props: ISingleImageProps): JSX.Element => {
           alt={title}
           objectFit="cover"
           width={{
-            base: canDrag ? "325px" : "100%",
-            md: canDrag ? "900px" : "100%",
-            lg: canDrag ? "200px" : "100%",
+            base: "100%",
+            md: "100%",
+            lg: "100%",
           }}
           opacity={
             select?.selectImgs.some((curr: IPhoto) => {

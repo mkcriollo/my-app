@@ -9,13 +9,13 @@ import {
   GridItem,
   VStack,
 } from "@chakra-ui/react";
-import { IPhoto, IPhotoListProps } from "../Types";
+import { IPhoto, IPhotoListProps, ISectionProps } from "../Types";
 import { BsTrash3 } from "react-icons/bs";
 import { BiUpArrow, BiDownArrow } from "react-icons/bi";
 
 const PhotoList = React.lazy<any>(() => import("./PhotoList"));
 
-const Albums = (props: any): JSX.Element => {
+const Albums = (props: ISectionProps): JSX.Element => {
   const { albumPhotos, setAlbumPhotos, setDragImage, dragImage, addToAlbum } =
     props;
   const [selectImgs, setSelectImgs] = useState<IPhoto[]>([]);
@@ -163,7 +163,12 @@ const Albums = (props: any): JSX.Element => {
                 or dragging and dropping images with ease.
               </Text>
             </Box>
-            <VStack spacing={6}>
+            <VStack
+              spacing={6}
+              width="100%"
+              maxH="100%"
+              alignItems="flex-start"
+            >
               <Text fontSize="2xl" color="white" fontWeight="bold">
                 Steps:
               </Text>

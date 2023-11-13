@@ -1,4 +1,8 @@
-const fetchPhotos = async ({ queryKey }: { queryKey: any }) => {
+const fetchPhotos = async ({
+  queryKey,
+}: {
+  queryKey: [string, number, number];
+}) => {
   const limit = queryKey[1];
   const offset = queryKey[2];
 
