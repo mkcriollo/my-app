@@ -78,5 +78,6 @@ Run the following commands to setup, `node` and `npm` is required:
 8) Enable drag-and-drop functionality directly from the computer file system.
 9) Optimize image loading times by implementing an image compression library like `browser-image-compression`.
 10) Utilize a minifier such as `uglify-js` to compress and minimize the JavaScript code.
-11) Foster collaboration by seeking feedback and exploring alternative approaches to code implementation with the team.
+11) Host On `Heroku`.
+12) Foster collaboration by seeking feedback and exploring alternative approaches to code implementation with the team.
 
