@@ -91,7 +91,12 @@ const Albums = (props: any): JSX.Element => {
               : albumPhotos.length > 0 && !closedAlbum
               ? "540px"
               : "100px",
-          lg: closedAlbum ? "fit-content" : "80vh",
+          lg:
+            !albumPhotos.length && closedAlbum
+              ? "80vh"
+              : albumPhotos.length > 0 && !closedAlbum
+              ? "80vh"
+              : "fit-content",
         }}
         p={{ base: "40px", lg: "20px" }}
         mb={{ base: "30px", lg: "0px" }}
@@ -144,7 +149,8 @@ const Albums = (props: any): JSX.Element => {
         {!albumPhotos.length && closedAlbum ? (
           <Flex
             flexDir="column"
-            alignItems="start"
+            alignItems="flex-start"
+            minW="100%"
             h="70%"
             justifyContent="space-around"
           >
@@ -170,7 +176,7 @@ const Albums = (props: any): JSX.Element => {
                 Album!
               </Text>
               <Text fontSize="lg" color="white" fontWeight="bold">
-                2) Click On Arrow to Start Browsering
+                3) Click On Arrow or Just Drag and Drop to Start Begin.
               </Text>
             </VStack>
           </Flex>
