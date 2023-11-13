@@ -63,19 +63,21 @@ const Albums = (props: any): JSX.Element => {
   return (
     <GridItem
       colSpan={{ base: 3, lg: 1 }}
-      overflow="hidden"
+      // overflow="hidden"
       area={"album"}
+      height="100%"
       minW="100%"
     >
       <Box
         background="#00cccb"
         borderRadius="6px"
         width="100%"
-        h={{ base: "fit-content", lg: "80vh" }}
+        h={{ base: "450px", lg: "80vh" }}
         p={{ base: "40px", lg: "20px" }}
         mb={{ base: "30px", lg: "0px" }}
         onDrop={(ev) => drop(ev)}
         onDragOver={(ev) => allowDrop(ev)}
+        overflow="hidden"
       >
         <Flex justifyContent="space-between" alignItems="baseline" mb="40px">
           <Text fontWeight="bold" fontSize="medium">
@@ -121,7 +123,7 @@ const Albums = (props: any): JSX.Element => {
             />
           </Flex>
         )}
-        <Flex justifyContent="space-between">
+        <Flex justifyContent="space-between" overflowY="auto" height="300px">
           <Box width="50%">
             <PhotoList {...photoListProps}></PhotoList>
           </Box>
