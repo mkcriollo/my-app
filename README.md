@@ -1,6 +1,4 @@
-Brainscape Take-Home-Project
-
-# Braiscape Take Home Project
+# Brainscape Take Home Project
 
 This page offers users the opportunity to swiftly and intuitively curate a photo album by browsing and selecting from a collection of stock images.
 
