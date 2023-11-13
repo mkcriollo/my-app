@@ -48,6 +48,7 @@ const Albums = (props: any): JSX.Element => {
     }
     setAlbumPhotos(albumWithoutSelectPhotos);
     setSelectImgs([]);
+    // setClosedAlbum(true);
   };
 
   const photoListProps: IPhotoListProps = {
@@ -93,36 +94,45 @@ const Albums = (props: any): JSX.Element => {
             Album Generator
           </Text>
           <Flex alignItems="center">
-            {albumPhotos.length > 0 && !closedAlbum && (
-              <Button
-                cursor="pointer"
-                onClick={() => handleSelectMode()}
-                borderRadius="6px"
-                background="#a3e7e7"
-                border="none"
-                _hover={{
-                  background: "#339f9f",
-                  border: "none",
-                  color: "white",
-                }}
-                mr="10px"
-              >
-                {selectMode ? "Cancel" : "Select"}
-              </Button>
-            )}
-            {!closedAlbum ? (
-              <BiDownArrow
-                cursor="pointer"
-                onClick={() => setClosedAlbum(true)}
-              />
-            ) : (
-              <BiUpArrow
-                cursor="pointer"
-                onClick={() => setClosedAlbum(false)}
-              />
+            {albumPhotos.length > 0 && (
+              <>
+                {!closedAlbum && (
+                  <Button
+                    cursor="pointer"
+                    onClick={() => handleSelectMode()}
+                    borderRadius="6px"
+                    background="#a3e7e7"
+                    border="none"
+                    _hover={{
+                      background: "#339f9f",
+                      border: "none",
+                      color: "white",
+                    }}
+                    mr="10px"
+                  >
+                    {selectMode ? "Cancel" : "Select"}
+                  </Button>
+                )}
+                {!closedAlbum ? (
+                  <BiDownArrow
+                    cursor="pointer"
+                    onClick={() => setClosedAlbum(true)}
+                  />
+                ) : (
+                  <BiUpArrow
+                    cursor="pointer"
+                    onClick={() => setClosedAlbum(false)}
+                  />
+                )}
+              </>
             )}
           </Flex>
         </Flex>
+        {albumPhotos.length === 0 && (
+          <Text fontSize="2xl" color="white" fontWeight="bold">
+            Add Some Photos Here!
+          </Text>
+        )}
         {selectMode && !closedAlbum && (
           <Flex
             alignItems="center"
