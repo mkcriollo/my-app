@@ -2,23 +2,30 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import fetchPhotos from "../Actions/fetchPhotos";
 import { IPhoto, IPhotoListProps } from "../Types";
-import { GridItem, Skeleton } from "@chakra-ui/react";
-import PhotoList from "./PhotoList";
+import { Flex, GridItem, Skeleton } from "@chakra-ui/react";
+
+const PhotoList = React.lazy<any>(() => import("./PhotoList"));
 
 const Gallery = (props: any): JSX.Element => {
-  const results = useQuery(["images"], fetchPhotos);
+  const results = useQuery(["images", 100, 0], fetchPhotos);
+
   const { addToAlbum, setDragImage, dragImage, albumPhotos } = props;
 
   // if results is not loaded show a loader
-  if (results.isLoading) {
+  if (results?.isLoading) {
     return (
       <GridItem area={"gallery"} colSpan={{ base: 3, lg: 2 }}>
-        <Skeleton h="100vh" startColor="lightgray" borderRadius="10px" />
+        <Skeleton
+          h="100vh"
+          startColor="lightgray"
+          borderRadius="10px"
+          mr={{ base: "0px", lg: "20px" }}
+        />
       </GridItem>
     );
   }
 
-  const photos: IPhoto[] = results.data.photos;
+  const photos: IPhoto[] = results?.data.photos;
 
   const photoListProps: IPhotoListProps = {
     allPhotos: photos,
@@ -37,7 +44,11 @@ const Gallery = (props: any): JSX.Element => {
       area={"gallery"}
       mr={{ base: "0px", lg: "20px" }}
     >
-      <PhotoList {...photoListProps} />
+      <React.Suspense>
+        <Flex flexDir="column" alignItems="center">
+          <PhotoList {...photoListProps} />
+        </Flex>
+      </React.Suspense>
     </GridItem>
   );
 };

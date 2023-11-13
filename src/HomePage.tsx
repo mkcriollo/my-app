@@ -8,7 +8,7 @@ const HomePage = (): JSX.Element => {
   const [albumPhotos, setAlbumPhotos] = useState<IPhoto[] | []>([]);
   const [dragImage, setDragImage] = useState<IPhoto>();
 
-  const addToAlbum = (photo: IPhoto) => {
+  const addToAlbum = (photo: IPhoto): void => {
     const newAlbum: IPhoto[] = [...albumPhotos, photo];
     setAlbumPhotos(newAlbum);
   };

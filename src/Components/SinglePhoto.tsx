@@ -27,8 +27,13 @@ const SinglePhoto = (props: ISingleImageProps): JSX.Element => {
         p={{ base: canDrag ? "20px" : "0px", lg: "0px" }}
         background="#F0F0F0"
         borderRadius="6px"
+        maxH={{ lg: "200px" }}
+        maxW={{ lg: "200px" }}
       >
         <Image
+          // loading="lazy"
+          maxH={{ base: "500px", md: "900px", lg: "200px" }}
+          maxW={{ base: "500px", md: "900px", lg: "200px" }}
           borderRadius={{ base: canDrag ? "6px" : "0px", lg: "0px" }}
           cursor={select?.selectMode ? "pointer" : "default"}
           id="single-image"

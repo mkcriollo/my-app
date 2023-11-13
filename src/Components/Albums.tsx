@@ -10,21 +10,23 @@ import {
 } from "@chakra-ui/react";
 import { IPhoto, IPhotoListProps } from "../Types";
 import { BsTrash3 } from "react-icons/bs";
-import PhotoList from "./PhotoList";
 import { BiUpArrow, BiDownArrow } from "react-icons/bi";
+
+const PhotoList = React.lazy<any>(() => import("./PhotoList"));
 
 const Albums = (props: any): JSX.Element => {
   const { albumPhotos, setAlbumPhotos, setDragImage, dragImage, addToAlbum } =
     props;
   const [selectImgs, setSelectImgs] = useState<IPhoto[]>([]);
   const [selectMode, setSelectMode] = useState<boolean>(false);
-  const [closedAlbum, setClosedAlbum] = useState<boolean>(false);
+  const [closedAlbum, setClosedAlbum] = useState<boolean>(true);
 
   // Handle Image Drop
   const drop = (ev: any): void => {
     ev.preventDefault();
     if (!albumPhotos.includes(dragImage)) {
       addToAlbum(dragImage);
+      setClosedAlbum(false);
     }
   };
 
@@ -39,16 +41,16 @@ const Albums = (props: any): JSX.Element => {
 
   // Delete Photos from Album
   const handleDeleteSelectPhotos = (): void => {
-    const albumWithoutSelectPhotos = albumPhotos.filter(
+    const albumWithoutSelectPhotos = [...albumPhotos].filter(
       (ele: IPhoto) => !selectImgs.includes(ele)
     );
 
     if (albumWithoutSelectPhotos.length === 0) {
       setSelectMode(false);
+      setClosedAlbum(true);
     }
     setAlbumPhotos(albumWithoutSelectPhotos);
     setSelectImgs([]);
-    // setClosedAlbum(true);
   };
 
   const photoListProps: IPhotoListProps = {
@@ -70,7 +72,6 @@ const Albums = (props: any): JSX.Element => {
   return (
     <GridItem
       colSpan={{ base: 3, lg: 1 }}
-      // overflow="hidden"
       area={"album"}
       height="100%"
       minW="100%"
@@ -80,8 +81,8 @@ const Albums = (props: any): JSX.Element => {
         borderRadius="6px"
         width="100%"
         h={{
-          base: !closedAlbum ? "450px" : "fit-content",
-          lg: !closedAlbum ? "80vh" : "fit-content",
+          base: closedAlbum ? "200px" : "450px",
+          lg: closedAlbum ? "fit-content" : "80vh",
         }}
         p={{ base: "40px", lg: "20px" }}
         mb={{ base: "30px", lg: "0px" }}
@@ -113,25 +114,31 @@ const Albums = (props: any): JSX.Element => {
                     {selectMode ? "Cancel" : "Select"}
                   </Button>
                 )}
-                {!closedAlbum ? (
-                  <BiDownArrow
-                    cursor="pointer"
-                    onClick={() => setClosedAlbum(true)}
-                  />
-                ) : (
+                {closedAlbum ? (
                   <BiUpArrow
                     cursor="pointer"
                     onClick={() => setClosedAlbum(false)}
+                  />
+                ) : (
+                  <BiDownArrow
+                    cursor="pointer"
+                    onClick={() => setClosedAlbum(true)}
                   />
                 )}
               </>
             )}
           </Flex>
         </Flex>
-        {albumPhotos.length === 0 && (
+        {albumPhotos.length === 0 ? (
           <Text fontSize="2xl" color="white" fontWeight="bold">
             Add Some Photos Here!
           </Text>
+        ) : (
+          closedAlbum && (
+            <Text fontSize="2xl" color="white" fontWeight="bold">
+              Open To View Album!
+            </Text>
+          )
         )}
         {selectMode && !closedAlbum && (
           <Flex
@@ -157,28 +164,31 @@ const Albums = (props: any): JSX.Element => {
           </Flex>
         )}
         {!closedAlbum ? (
-          <Flex
-            justifyContent="space-between"
-            overflowY="auto"
-            height={{ base: "300px", lg: "80%" }}
-          >
-            <Box width="50%">
-              <PhotoList {...photoListProps}></PhotoList>
-            </Box>
-            <OrderedList width="50%" pl="20px">
-              {albumPhotos.map((albumPhoto: IPhoto) => {
-                const { title, id } = albumPhoto;
-                return (
-                  <ListItem fontWeight="bold" key={id}>
-                    {title}
-                  </ListItem>
-                );
-              })}
-            </OrderedList>
-          </Flex>
-        ) : (
-          <></>
-        )}
+          <React.Suspense>
+            <Flex
+              justifyContent="space-between"
+              overflowY="auto"
+              height={{
+                base: "300px",
+                lg: "80%",
+              }}
+            >
+              <Box width="50%">
+                <PhotoList {...photoListProps}></PhotoList>
+              </Box>
+              <OrderedList width="50%" pl="20px">
+                {albumPhotos.map((albumPhoto: IPhoto) => {
+                  const { title, id } = albumPhoto;
+                  return (
+                    <ListItem fontWeight="bold" key={id}>
+                      {title}
+                    </ListItem>
+                  );
+                })}
+              </OrderedList>
+            </Flex>
+          </React.Suspense>
+        ) : null}
       </Box>
     </GridItem>
   );
