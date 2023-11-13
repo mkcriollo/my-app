@@ -1,7 +1,6 @@
 import React from "react";
 import { GridItem, Image, Flex, Text, Box, Button } from "@chakra-ui/react";
 import { IPhoto, ISingleImageProps } from "../Types";
-import { MdAddToPhotos } from "react-icons/md";
 
 const SinglePhoto = (props: ISingleImageProps): JSX.Element => {
   const {
@@ -12,15 +11,16 @@ const SinglePhoto = (props: ISingleImageProps): JSX.Element => {
     handleSelectMode,
     drag,
     addToAlbum,
+    photoList,
   } = props;
   const { url, id, title, description } = photo;
 
   const handleButtonAdd = (): void => {
-    console.log(select?.selectImgs);
-    if (!select?.selectImgs.includes(photo)) {
+    if (!photoList.includes(photo)) {
       addToAlbum(photo);
     }
   };
+
   return (
     <GridItem colSpan={{ base: canDrag ? Number(amountOfCols) : 1, lg: 1 }}>
       <Box

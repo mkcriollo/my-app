@@ -1,6 +1,6 @@
 import React from "react";
 import { IPhoto, IPhotoListProps, ISingleImageProps } from "../Types";
-import { Image, Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 import SinglePhoto from "./SinglePhoto";
 
 const PhotoList = ({
@@ -11,19 +11,18 @@ const PhotoList = ({
   canDrag,
   select,
   addToAlbum,
+  allPhotos,
 }: IPhotoListProps): JSX.Element => {
   const { setDragImage } = dragState;
 
-  // Get COLS Span
-
+  // START COLS SPAN
   const colArr = colTemplate.match(/\d/g);
   let amountOfCols: any = null;
 
   if (colArr !== null) {
     amountOfCols = colArr[0];
   }
-
-  // Finish
+  // END COLS SPAN
 
   const drag = (photo: IPhoto): void => {
     setDragImage(photo);
@@ -52,14 +51,19 @@ const PhotoList = ({
     handleSelectMode,
     drag,
     addToAlbum,
+    photoList,
   };
+
+  // Shows either Album Photos OR Gallery
+  const photosToDisplay = allPhotos !== undefined ? allPhotos : photoList;
 
   return (
     <Grid templateColumns={colTemplate} gap={gap}>
-      {photoList.map((photo: IPhoto) => {
+      {photosToDisplay?.map((photo: IPhoto) => {
         return (
           <GridItem
             colSpan={{ base: canDrag ? Number(amountOfCols) : 1, lg: 1 }}
+            key={photo.id}
           >
             <SinglePhoto {...singleImageProps} photo={photo} />
           </GridItem>

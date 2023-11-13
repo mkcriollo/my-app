@@ -7,7 +7,7 @@ import PhotoList from "./PhotoList";
 
 const Gallery = (props: any): JSX.Element => {
   const results = useQuery(["images"], fetchPhotos);
-  const { addToAlbum, setDragImage, dragImage } = props;
+  const { addToAlbum, setDragImage, dragImage, albumPhotos } = props;
 
   // if results is not loaded show a loader
   if (results.isLoading) {
@@ -21,7 +21,8 @@ const Gallery = (props: any): JSX.Element => {
   const photos: IPhoto[] = results.data.photos;
 
   const photoListProps: IPhotoListProps = {
-    photoList: photos,
+    allPhotos: photos,
+    photoList: albumPhotos,
     colTemplate: "repeat(4,1fr)",
     gap: 15,
     addToAlbum,

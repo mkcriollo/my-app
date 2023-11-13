@@ -9,6 +9,7 @@ export interface IPhoto {
 }
 
 export interface IPhotoListProps {
+  allPhotos?: IPhoto[];
   photoList: IPhoto[];
   colTemplate: string;
   gap: number;
@@ -38,4 +39,5 @@ export interface ISingleImageProps {
   handleSelectMode: (photo: IPhoto) => void;
   drag: (photo: IPhoto) => void;
   photo?: any;
+  photoList: IPhoto[];
 }

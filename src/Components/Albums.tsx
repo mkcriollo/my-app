@@ -6,7 +6,6 @@ import {
   ListItem,
   Button,
   Text,
-  Container,
   GridItem,
 } from "@chakra-ui/react";
 import { IPhoto, IPhotoListProps } from "../Types";
