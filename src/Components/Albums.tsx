@@ -25,14 +25,11 @@ const Albums = (props: any): JSX.Element => {
   // Handle Image Drop
   const drop = (ev: any): void => {
     ev.preventDefault();
-    if (!albumPhotos.includes(dragImage)) {
+    if (!albumPhotos?.includes(dragImage)) {
       addToAlbum(dragImage);
       setClosedAlbum(false);
     }
   };
-
-  console.log(albumPhotos);
-  console.log(closedAlbum);
 
   const allowDrop = (ev: any): void => {
     ev.preventDefault();
@@ -86,15 +83,15 @@ const Albums = (props: any): JSX.Element => {
         width="100%"
         h={{
           base:
-            !albumPhotos.length && closedAlbum
+            !albumPhotos?.length && closedAlbum
               ? "80vh"
-              : albumPhotos.length > 0 && !closedAlbum
+              : albumPhotos?.length > 0 && !closedAlbum
               ? "540px"
               : "100px",
           lg:
-            !albumPhotos.length && closedAlbum
+            !albumPhotos?.length && closedAlbum
               ? "80vh"
-              : albumPhotos.length > 0 && !closedAlbum
+              : albumPhotos?.length > 0 && !closedAlbum
               ? "80vh"
               : "fit-content",
         }}
@@ -109,7 +106,7 @@ const Albums = (props: any): JSX.Element => {
             Album Generator
           </Text>
           <Flex alignItems="center">
-            {albumPhotos.length > 0 && (
+            {albumPhotos?.length > 0 && (
               <>
                 {!closedAlbum && (
                   <Button
@@ -130,23 +127,25 @@ const Albums = (props: any): JSX.Element => {
                 )}
               </>
             )}
-            {closedAlbum && albumPhotos.length > 0 && (
-              <Text mr="10px">{albumPhotos.length} Photos</Text>
+            {closedAlbum && albumPhotos?.length > 0 && (
+              <Text mr="10px">{albumPhotos?.length} Photos</Text>
             )}
             {closedAlbum ? (
               <BiUpArrow
                 cursor="pointer"
+                data-testid="arrowup"
                 onClick={() => setClosedAlbum(false)}
               />
             ) : (
               <BiDownArrow
                 cursor="pointer"
+                data-testid="arrowdown"
                 onClick={() => setClosedAlbum(true)}
               />
             )}
           </Flex>
         </Flex>
-        {!albumPhotos.length && closedAlbum ? (
+        {!albumPhotos?.length && closedAlbum ? (
           <Flex
             flexDir="column"
             alignItems="flex-start"
@@ -218,7 +217,7 @@ const Albums = (props: any): JSX.Element => {
                 <PhotoList {...photoListProps}></PhotoList>
               </Box>
               <OrderedList width="50%" pl="20px">
-                {albumPhotos.map((albumPhoto: IPhoto) => {
+                {albumPhotos?.map((albumPhoto: IPhoto) => {
                   const { title, id } = albumPhoto;
                   return (
                     <ListItem fontWeight="bold" key={id}>
