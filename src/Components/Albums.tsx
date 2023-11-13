@@ -89,7 +89,7 @@ const Albums = (props: any): JSX.Element => {
             Album Generator
           </Text>
           <Flex alignItems="center">
-            {albumPhotos.length > 0 && (
+            {albumPhotos.length > 0 && !closedAlbum && (
               <Button
                 cursor="pointer"
                 onClick={() => handleSelectMode()}
@@ -119,7 +119,7 @@ const Albums = (props: any): JSX.Element => {
             )}
           </Flex>
         </Flex>
-        {selectMode && (
+        {selectMode && !closedAlbum && (
           <Flex
             alignItems="center"
             justifyContent="space-between"
